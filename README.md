@@ -1,6 +1,6 @@
 # The Rookery Patches
 
-- Overview of the main new modifications in [MODDED_CHANGES_REVIEW.html](MODDED_CHANGES_REVIEW.html) (open it in Chrome). This file embeds all images, so it can be sent alone.
+- Overview of the main new modifications in [MODDED_CHANGES_REVIEW.html](MODDED_CHANGES_REVIEW.html) (open it in Chrome).
 
 ## Installation
 
