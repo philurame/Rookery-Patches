@@ -1,6 +1,7 @@
 # The Rookery Patches
 
 - Overview of the main new modifications in [MODDED_CHANGES_REVIEW.html](MODDED_CHANGES_REVIEW.html) (open it in Chrome)
+- Single-file version for sharing: [MODDED_CHANGES_REVIEW_STANDALONE.html](MODDED_CHANGES_REVIEW_STANDALONE.html). This file embeds all images, so it can be sent alone without the `assets/` or `review_screenshots/` folders.
 
 ## Installation
 
