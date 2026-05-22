@@ -1,0 +1,1243 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Rookery: Modded Player Guide</title>
+  <style>
+    :root {
+      --bg: #130f16;
+      --panel: rgba(31, 24, 43, 0.82);
+      --panel-soft: rgba(255, 255, 255, 0.06);
+      --line: rgba(255, 236, 181, 0.18);
+      --text: #fff4dc;
+      --muted: #cbb896;
+      --gold: #ffd05d;
+      --orange: #ff8b45;
+      --red: #f15c55;
+      --green: #61d384;
+      --purple: #b46bff;
+      --blue: #6db7ff;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.38);
+      --radius: 28px;
+      --serif: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+      --sans: "Trebuchet MS", "Avenir Next", Verdana, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: var(--sans);
+      background:
+        radial-gradient(circle at 12% -8%, rgba(255, 128, 62, 0.28), transparent 34rem),
+        radial-gradient(circle at 88% 0%, rgba(170, 91, 255, 0.32), transparent 34rem),
+        linear-gradient(145deg, #11101a 0%, #261622 45%, #111019 100%);
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.16;
+      background:
+        linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%) 0 0 / 46px 46px,
+        linear-gradient(-45deg, rgba(255,255,255,0.035) 25%, transparent 25%) 0 0 / 46px 46px;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .page {
+      width: min(1440px, calc(100% - 34px));
+      margin: 0 auto;
+      padding: 28px 0 70px;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 620px;
+      border: 1px solid rgba(255, 231, 174, 0.18);
+      border-radius: 38px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      background: #111;
+    }
+
+    .hero-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.6) saturate(1.07);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(20, 11, 14, 0.96) 0%, rgba(20, 11, 14, 0.78) 38%, rgba(20, 11, 14, 0.18) 76%),
+        radial-gradient(circle at 22% 25%, rgba(255, 205, 93, 0.2), transparent 24rem);
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 2;
+      max-width: 760px;
+      padding: 58px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border: 1px solid rgba(255, 208, 93, 0.38);
+      border-radius: 999px;
+      color: #ffe097;
+      background: rgba(34, 24, 25, 0.74);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 18px var(--green);
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      font-family: var(--serif);
+      letter-spacing: -0.035em;
+    }
+
+    h1 {
+      margin-top: 24px;
+      font-size: clamp(3.5rem, 8vw, 7.5rem);
+      line-height: 0.85;
+      text-wrap: balance;
+    }
+
+    .hero-copy p {
+      max-width: 660px;
+      margin: 24px 0 0;
+      color: #dfc7a6;
+      font-size: clamp(1.04rem, 2vw, 1.26rem);
+      line-height: 1.56;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 11px 17px;
+      border: 1px solid rgba(255, 231, 174, 0.22);
+      border-radius: 15px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.06);
+      text-decoration: none;
+      font-weight: 900;
+      box-shadow: inset 0 1px rgba(255,255,255,0.07);
+    }
+
+    .button.primary {
+      color: #251309;
+      background: linear-gradient(135deg, var(--gold), var(--orange));
+      border-color: rgba(255, 224, 130, 0.65);
+    }
+
+    .quick-nav {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+      margin: 18px 0;
+    }
+
+    .quick-nav a {
+      display: grid;
+      place-items: center;
+      min-height: 54px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      color: #ffe3a0;
+      background: rgba(255, 255, 255, 0.055);
+      text-decoration: none;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .section {
+      margin-top: 22px;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 8% 10%, rgba(255, 208, 93, 0.08), transparent 18rem),
+        linear-gradient(150deg, rgba(35, 27, 48, 0.9), rgba(19, 15, 26, 0.9));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: end;
+      margin-bottom: 18px;
+    }
+
+    .kicker {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--gold);
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      font-size: clamp(2.1rem, 4vw, 4rem);
+      line-height: 0.96;
+      text-wrap: balance;
+    }
+
+    .lede {
+      max-width: 900px;
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 1.04rem;
+      line-height: 1.55;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 7px 11px;
+      border: 1px solid rgba(255, 236, 181, 0.22);
+      border-radius: 999px;
+      color: #ffe19a;
+      background: rgba(255, 208, 93, 0.09);
+      font-size: 0.84rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, 1.28fr) minmax(320px, 0.72fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .split.reverse {
+      grid-template-columns: minmax(320px, 0.72fr) minmax(0, 1.28fr);
+    }
+
+    .shot {
+      position: relative;
+      overflow: hidden;
+      min-height: 360px;
+      border: 1px solid rgba(255, 236, 181, 0.18);
+      border-radius: 24px;
+      background: rgba(0, 0, 0, 0.34);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.34);
+    }
+
+    .shot img {
+      width: 100%;
+      height: 100%;
+      min-height: inherit;
+      object-fit: cover;
+      display: block;
+    }
+
+    .shot.contain img {
+      object-fit: contain;
+      background: #191525;
+    }
+
+    .shot-label {
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      z-index: 2;
+      padding: 7px 10px;
+      border: 1px solid rgba(255, 236, 181, 0.28);
+      border-radius: 999px;
+      color: #ffe19a;
+      background: rgba(18, 12, 18, 0.78);
+      font-size: 0.75rem;
+      font-weight: 900;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      backdrop-filter: blur(8px);
+    }
+
+    .notes {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .note {
+      position: relative;
+      padding: 17px 17px 17px 20px;
+      border: 1px solid rgba(255, 236, 181, 0.13);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.055);
+    }
+
+    .note::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 16px;
+      bottom: 16px;
+      width: 4px;
+      border-radius: 999px;
+      background: linear-gradient(var(--gold), var(--orange));
+    }
+
+    .note h3 {
+      color: #ffe6a8;
+      font-size: 1.24rem;
+      margin-bottom: 7px;
+    }
+
+    .note p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.48;
+    }
+
+    .item-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .item {
+      min-height: 300px;
+      padding: 18px;
+      border: 1px solid rgba(255, 236, 181, 0.14);
+      border-radius: 23px;
+      background:
+        radial-gradient(circle at 50% 7%, rgba(255, 208, 93, 0.13), transparent 9rem),
+        rgba(255, 255, 255, 0.055);
+      text-align: center;
+    }
+
+    .item img {
+      height: 128px;
+      max-width: 90%;
+      object-fit: contain;
+      filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.36));
+    }
+
+    .item h3 {
+      margin-top: 12px;
+      color: #ffe6a8;
+      font-size: 1.28rem;
+    }
+
+    .item p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.42;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 12px;
+    }
+
+    .pill {
+      padding: 6px 9px;
+      border-radius: 999px;
+      color: #251309;
+      background: var(--gold);
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .pill.rare {
+      color: #fff2d8;
+      background: linear-gradient(135deg, var(--purple), var(--red));
+    }
+
+    .master-strip {
+      display: grid;
+      grid-template-columns: 210px minmax(0, 1fr);
+      gap: 18px;
+      align-items: center;
+      margin-top: 18px;
+      padding: 18px;
+      border: 1px solid rgba(255, 236, 181, 0.14);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.055);
+    }
+
+    .master-face {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: contain;
+      filter: drop-shadow(0 15px 22px rgba(0, 0, 0, 0.38));
+    }
+
+    .card-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .rule-card {
+      display: grid;
+      justify-items: center;
+      gap: 8px;
+      padding: 13px;
+      border: 1px solid rgba(255, 236, 181, 0.14);
+      border-radius: 18px;
+      color: var(--text);
+      background: rgba(0, 0, 0, 0.18);
+      appearance: none;
+      cursor: pointer;
+      font: inherit;
+      text-align: center;
+      width: 100%;
+    }
+
+    .rule-card.active {
+      border-color: rgba(255, 208, 93, 0.72);
+      box-shadow: 0 0 0 3px rgba(255, 208, 93, 0.1), 0 0 26px rgba(180, 107, 255, 0.28);
+    }
+
+    .rule-card img {
+      height: 116px;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 16px rgba(170, 91, 255, 0.28));
+    }
+
+    .rule-card b {
+      color: #ffe6a8;
+    }
+
+    .pool-preview {
+      margin-top: 16px;
+      padding: 18px;
+      border: 1px solid rgba(255, 236, 181, 0.15);
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 14% 0%, rgba(180, 107, 255, 0.16), transparent 16rem),
+        rgba(255, 255, 255, 0.045);
+    }
+
+    .pool-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .pool-top h3 {
+      color: #ffe6a8;
+      font-size: 1.46rem;
+    }
+
+    .pool-top p {
+      max-width: 720px;
+      margin: 5px 0 0;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .pool-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .pool-tab {
+      padding: 9px 12px;
+      border: 1px solid rgba(255, 236, 181, 0.22);
+      border-radius: 999px;
+      color: #ffe6a8;
+      background: rgba(0, 0, 0, 0.18);
+      appearance: none;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 900;
+    }
+
+    .pool-tab.active {
+      color: #271509;
+      background: linear-gradient(135deg, var(--gold), var(--orange));
+      border-color: rgba(255, 224, 130, 0.7);
+    }
+
+    .pool-panel {
+      display: none;
+    }
+
+    .pool-panel.active {
+      display: block;
+    }
+
+    .pool-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      max-height: 430px;
+      overflow: auto;
+      padding: 2px 4px 2px 0;
+    }
+
+    .pool-list.contract {
+      max-height: 360px;
+    }
+
+    .pool-entry {
+      padding: 12px;
+      border: 1px solid rgba(255, 236, 181, 0.13);
+      border-radius: 15px;
+      background: rgba(0, 0, 0, 0.18);
+    }
+
+    .pool-entry strong {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: #ffe6a8;
+      font-size: 0.98rem;
+    }
+
+    .pool-entry p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      line-height: 1.36;
+      font-size: 0.9rem;
+    }
+
+    .discount {
+      flex: 0 0 auto;
+      padding: 4px 7px;
+      border-radius: 999px;
+      color: #28160a;
+      background: var(--gold);
+      font-size: 0.76rem;
+      font-weight: 900;
+    }
+
+    .pool-hint {
+      margin-top: 12px;
+      color: #ffe083;
+      font-weight: 900;
+    }
+
+    .contract-card {
+      position: relative;
+      overflow: hidden;
+      padding: 28px;
+      border: 2px solid rgba(116, 70, 36, 0.58);
+      border-radius: 24px;
+      color: #332012;
+      background:
+        linear-gradient(135deg, rgba(255, 237, 182, 0.98), rgba(211, 158, 84, 0.98)),
+        repeating-linear-gradient(0deg, rgba(103, 67, 34, 0.06), rgba(103, 67, 34, 0.06) 1px, transparent 1px, transparent 13px);
+      box-shadow: 0 18px 54px rgba(0, 0, 0, 0.32);
+    }
+
+    .contract-card h3 {
+      color: #2e1b0f;
+      font-size: 2.4rem;
+    }
+
+    .contract-card p {
+      max-width: 760px;
+      margin: 12px 0 0;
+      color: rgba(51, 32, 18, 0.86);
+      line-height: 1.52;
+      font-size: 1.04rem;
+    }
+
+    .contract-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .contract-button {
+      padding: 13px 15px;
+      border: 3px solid rgba(236, 75, 61, 0.8);
+      border-radius: 14px;
+      color: #2b180d;
+      background: rgba(255, 248, 220, 0.48);
+      appearance: none;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 900;
+      box-shadow: 0 0 0 4px rgba(236, 75, 61, 0.1);
+    }
+
+    .contract-button.active {
+      background: rgba(255, 248, 220, 0.78);
+      box-shadow: 0 0 0 4px rgba(236, 75, 61, 0.18), 0 0 24px rgba(236, 75, 61, 0.22);
+    }
+
+    .contract-button.fair {
+      border-color: rgba(255, 195, 67, 0.9);
+      box-shadow: 0 0 0 4px rgba(255, 195, 67, 0.13);
+    }
+
+    .contract-button.fair.active {
+      box-shadow: 0 0 0 4px rgba(255, 195, 67, 0.2), 0 0 24px rgba(255, 195, 67, 0.24);
+    }
+
+    .compact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .augment-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .augment-card {
+      padding: 16px;
+      border: 1px solid rgba(255, 236, 181, 0.14);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.055);
+      overflow: hidden;
+    }
+
+    .augment-card h3 {
+      color: #ffe6a8;
+      font-size: 1.2rem;
+      margin-bottom: 7px;
+    }
+
+    .augment-card p {
+      margin: 9px 0 0;
+      color: var(--muted);
+      line-height: 1.42;
+    }
+
+    .augment-shot {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      border: 1px solid rgba(255, 236, 181, 0.2);
+      border-radius: 16px;
+      background: #211929;
+      box-shadow: 0 14px 30px rgba(0,0,0,0.28);
+    }
+
+    .augment-shot img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .small-mod {
+      min-height: 170px;
+      padding: 18px;
+      border: 1px solid rgba(255, 236, 181, 0.14);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.055);
+    }
+
+    .small-mod h3 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #ffe6a8;
+      font-size: 1.18rem;
+    }
+
+    .small-mod img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 10px rgba(0,0,0,0.32));
+    }
+
+    .small-mod p {
+      margin: 9px 0 0;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .footer {
+      margin-top: 24px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.045);
+      text-align: center;
+    }
+
+    @media (max-width: 1050px) {
+      .quick-nav,
+      .split,
+      .split.reverse,
+      .item-grid,
+      .compact-grid,
+      .augment-grid,
+      .pool-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .section-head {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(100% - 18px, 1440px);
+        padding-top: 10px;
+      }
+
+      .hero {
+        min-height: 560px;
+      }
+
+      .hero-copy,
+      .section {
+        padding: 22px;
+      }
+
+      .quick-nav,
+      .split,
+      .split.reverse,
+      .item-grid,
+      .compact-grid,
+      .augment-grid,
+      .pool-list,
+      .card-row,
+      .master-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .shot {
+        min-height: 260px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero" id="top">
+      <img class="hero-img" src="review_screenshots/game_00_main_menu.png" alt="The Rookery main menu screenshot">
+      <div class="hero-copy">
+        <span class="eyebrow">Player-facing mod showcase</span>
+        <h1>The Rookery Modded</h1>
+        <p>
+          This page shows what changed compared with vanilla The Rookery: new fight types,
+          new consumables, custom runs, replay tools, item control, and small quality-of-life upgrades.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="#drawback-master">See New Encounters</a>
+          <a class="button" href="#consumables">See New Consumables</a>
+        </div>
+      </div>
+    </header>
+
+    <nav class="quick-nav" aria-label="Sections">
+      <a href="#review">Reviews</a>
+      <a href="#drawback-master">Drawback Master</a>
+      <a href="#contracts">Contracts</a>
+      <a href="#augments">Augments</a>
+      <a href="#consumables">Consumables</a>
+      <a href="#custom">Custom Runs</a>
+      <a href="#items">Items</a>
+    </nav>
+
+    <section class="section" id="review">
+      <div class="section-head">
+        <div>
+          <span class="kicker">Match review</span>
+          <h2>Rewatch completed fights from Run History.</h2>
+          <p class="lede">
+            Finished fights can be opened again, browsed move by move, and optionally analyzed by the engine.
+            Reviews are for watching only, so they do not spend items or change the run.
+          </p>
+        </div>
+        <span class="tag">Left / Right arrows</span>
+      </div>
+
+      <div class="split">
+        <div class="shot contain">
+          <span class="shot-label">Actual run history screen</span>
+          <img src="review_screenshots/game_20_run_history.png" alt="Run history with review buttons">
+        </div>
+        <div class="notes">
+          <div class="note">
+            <h3>Fight cards became review buttons</h3>
+            <p>When replay data is available, old fight cards show a small Review label and can reopen the board.</p>
+          </div>
+          <div class="note">
+            <h3>Pin favorite runs</h3>
+            <p>Pinned runs keep their fight replays longer, so memorable routes can be watched later.</p>
+          </div>
+          <div class="note">
+            <h3>Engine is optional</h3>
+            <p>Match review opens with the engine off. Turn it on only when you want a best-move arrow and evaluation.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="drawback-master" data-pool-group>
+      <div class="section-head">
+        <div>
+          <span class="kicker">New encounter type</span>
+          <h2>Drawback Master fights with one hidden AI rule.</h2>
+          <p class="lede">
+            A new wizard opponent can appear on special formations. The Master secretly plays under a drawback,
+            and the rule is revealed during the fight or when the match ends.
+          </p>
+        </div>
+        <span class="tag">Hidden AI drawback</span>
+      </div>
+
+      <div class="split reverse">
+        <div class="notes">
+          <div class="note">
+            <h3>Three public rule families</h3>
+            <p>The player sees Insane, Hard, and Medium card pools, but not the exact active drawback at first.</p>
+          </div>
+          <div class="note">
+            <h3>Special starting formations</h3>
+            <p>Master fights use Chess960-style and castled enemy setups instead of ordinary encounter maps.</p>
+          </div>
+          <div class="note">
+            <h3>Rule reveal in review</h3>
+            <p>After the rule opens, the fight panel shows the drawback name and a player-readable description.</p>
+          </div>
+        </div>
+        <div class="shot contain">
+          <span class="shot-label">Actual saved fight review</span>
+          <img src="review_screenshots/game_21_saved_review.png" alt="Saved Drawback Master fight review">
+        </div>
+      </div>
+
+      <div class="master-strip">
+        <img class="master-face" src="The%20Rookery%20Modded.app/Contents/Resources/app/src/assets/drawback_master_talking.png" alt="Drawback Master portrait">
+        <div class="card-row">
+          <button class="rule-card active" type="button" data-pool-tab="master-insane">
+            <img src="The%20Rookery%20Modded.app/Contents/Resources/app/src/assets/drawback_card_rook.png" alt="Insane drawback card">
+            <b>Insane</b>
+          </button>
+          <button class="rule-card" type="button" data-pool-tab="master-hard">
+            <img src="The%20Rookery%20Modded.app/Contents/Resources/app/src/assets/drawback_card_knight.png" alt="Hard drawback card">
+            <b>Hard</b>
+          </button>
+          <button class="rule-card" type="button" data-pool-tab="master-medium">
+            <img src="The%20Rookery%20Modded.app/Contents/Resources/app/src/assets/drawback_card_pawn.png" alt="Medium drawback card">
+            <b>Medium</b>
+          </button>
+        </div>
+      </div>
+
+      <div class="pool-preview">
+        <div class="pool-top">
+          <div>
+            <h3>Master drawback pools</h3>
+            <p>Discount means how much easier the encounter is considered after the Master accepts that drawback.</p>
+          </div>
+          <div class="pool-tabs" aria-label="Master drawback pools">
+            <button class="pool-tab active" type="button" data-pool-tab="master-insane">Insane</button>
+            <button class="pool-tab" type="button" data-pool-tab="master-hard">Hard</button>
+            <button class="pool-tab" type="button" data-pool-tab="master-medium">Medium</button>
+          </div>
+        </div>
+
+        <div class="pool-panel active" data-pool-panel="master-insane">
+          <div class="pool-list">
+            <div class="pool-entry"><strong>Cowardly <span class="discount">-12</span></strong><p>If possible, after you capture, the Master must move backward. For black, backward is toward rank 8.</p></div>
+            <div class="pool-entry"><strong>Death Wish <span class="discount">-10</span></strong><p>If possible, while not already in check, the Master must move its king into check.</p></div>
+            <div class="pool-entry"><strong>Leaps and Bounds <span class="discount">-8</span></strong><p>The Master cannot move a piece to an adjacent square.</p></div>
+            <div class="pool-entry"><strong>Left for Dead <span class="discount">-8</span></strong><p>The Master can only capture to the left.</p></div>
+            <div class="pool-entry"><strong>Medusa <span class="discount">-8</span></strong><p>The Master can't move a piece that is attacked by the enemy queen.</p></div>
+            <div class="pool-entry"><strong>Noble Steed <span class="discount">-8</span></strong><p>The Master can only move knights or pieces that are adjacent to them.</p></div>
+            <div class="pool-entry"><strong>Reflective <span class="discount">-8</span></strong><p>The Master's non-pawn pieces can only move to squares whose rank-mirrored square is occupied.</p></div>
+            <div class="pool-entry"><strong>Left to Right <span class="discount">-7</span></strong><p>If possible, the Master must move farther right than its previous destination. For black, right means h -> a files.</p></div>
+            <div class="pool-entry"><strong>Alternator <span class="discount">-6</span></strong><p>If possible, the Master must alternate pawn and non-pawn moves.</p></div>
+            <div class="pool-entry"><strong>Boxing with Shadows <span class="discount">-6</span></strong><p>If possible, the Master must move to the square you moved from.</p></div>
+            <div class="pool-entry"><strong>Deer in the Headlights <span class="discount">-6</span></strong><p>The Master can't move a piece that is attacked.</p></div>
+            <div class="pool-entry"><strong>Exclusivity Clause <span class="discount">-6</span></strong><p>The Master cannot move to a square that several of its pieces could move to.</p></div>
+            <div class="pool-entry"><strong>Guerilla Tactics <span class="discount">-6</span></strong><p>If possible, after the Master captures, that piece must move back to the square it came from.</p></div>
+            <div class="pool-entry"><strong>Messy Divorce <span class="discount">-6</span></strong><p>The Master cannot cross the vertical middle line.</p></div>
+            <div class="pool-entry"><strong>Shellshocked <span class="discount">-6</span></strong><p>If the opponent captures: the Master's adjacent pieces can't move for 1 turn.</p></div>
+            <div class="pool-entry"><strong>Turn the Other Cheek <span class="discount">-6</span></strong><p>The Master cannot immediately recapture on the square where you just captured.</p></div>
+          </div>
+        </div>
+
+        <div class="pool-panel" data-pool-panel="master-hard">
+          <div class="pool-list">
+            <div class="pool-entry"><strong>Centralized Command <span class="discount">-5</span></strong><p>The Master can only capture if the Master's king was moved in the last 3 moves.</p></div>
+            <div class="pool-entry"><strong>Diplomatic Immunity <span class="discount">-5</span></strong><p>After you make a non-capturing move, the Master cannot move to that destination square.</p></div>
+            <div class="pool-entry"><strong>Even Keeled <span class="discount">-5</span></strong><p>On the Master's odd-numbered turns, it cannot capture.</p></div>
+            <div class="pool-entry"><strong>Fixation <span class="discount">-5</span></strong><p>If possible, the Master must alternate pawn and non-pawn moves, except it can also move the same piece again.</p></div>
+            <div class="pool-entry"><strong>Gloomstalker <span class="discount">-5</span></strong><p>The Master can only capture from dark squares.</p></div>
+            <div class="pool-entry"><strong>Monkey See <span class="discount">-5</span></strong><p>The Master can only capture with piece types that you have already captured with.</p></div>
+            <div class="pool-entry"><strong>Oddball <span class="discount">-5</span></strong><p>On the Master's even-numbered turns, it cannot capture.</p></div>
+            <div class="pool-entry"><strong>Relay Race <span class="discount">-5</span></strong><p>If possible, the Master must move a piece adjacent to the destination of its last move.</p></div>
+            <div class="pool-entry"><strong>Remorseful <span class="discount">-5</span></strong><p>After the Master captures, it cannot capture on its next move.</p></div>
+            <div class="pool-entry"><strong>Two Steps Forward, One Drawback <span class="discount">-5</span></strong><p>If possible, after the Master moved forward twice in a row, it must move backward. For black, forward is toward rank 1.</p></div>
+            <div class="pool-entry"><strong>Covering Fire <span class="discount">-4</span></strong><p>The Master can only capture a piece if it could capture that piece in two different ways.</p></div>
+            <div class="pool-entry"><strong>Cowering in Fear <span class="discount">-4</span></strong><p>After you capture a piece type, the Master can only move pieces at least that valuable.</p></div>
+            <div class="pool-entry"><strong>Far Sighted <span class="discount">-4</span></strong><p>The Master can't capture on adjacent squares.</p></div>
+            <div class="pool-entry"><strong>Going the Distance <span class="discount">-4</span></strong><p>The Master cannot move a shorter distance than the previous move.</p></div>
+            <div class="pool-entry"><strong>Hand and Brainless <span class="discount">-4</span></strong><p>The Master must move a random piece type every move.</p></div>
+            <div class="pool-entry"><strong>Peons First <span class="discount">-4</span></strong><p>The Master cannot move pieces that are directly behind its own pawns.</p></div>
+          </div>
+        </div>
+
+        <div class="pool-panel" data-pool-panel="master-medium">
+          <div class="pool-list">
+            <div class="pool-entry"><strong>Checkers <span class="discount">-3</span></strong><p>If possible, the Master must capture.</p></div>
+            <div class="pool-entry"><strong>Control Center <span class="discount">-3</span></strong><p>The Master can only make non-capturing moves to the four center files.</p></div>
+            <div class="pool-entry"><strong>Flatterer <span class="discount">-3</span></strong><p>If possible, the Master must move pawn or non-pawn, depending on what you did.</p></div>
+            <div class="pool-entry"><strong>Forward March <span class="discount">-3</span></strong><p>The Master must move forward, if possible.</p></div>
+            <div class="pool-entry"><strong>Hipster <span class="discount">-3</span></strong><p>The Master cannot move the piece type you just moved.</p></div>
+            <div class="pool-entry"><strong>Hopscotch <span class="discount">-3</span></strong><p>If possible, the Master must alternate destination-square colors.</p></div>
+            <div class="pool-entry"><strong>Jumpy <span class="discount">-3</span></strong><p>If possible, the Master must move an attacked piece.</p></div>
+            <div class="pool-entry"><strong>Lame Duck <span class="discount">-3</span></strong><p>The Master cannot move its king.</p></div>
+            <div class="pool-entry"><strong>Reconnaissance <span class="discount">-3</span></strong><p>The Master can only capture a piece type if it was able to capture that piece type on an earlier turn.</p></div>
+            <div class="pool-entry"><strong>Scorched Earth <span class="discount">-3</span></strong><p>The Master cannot move to a square it previously moved from.</p></div>
+            <div class="pool-entry"><strong>Simon Says <span class="discount">-3</span></strong><p>If possible, the Master must move to a light or dark square, depending on the color you moved to.</p></div>
+            <div class="pool-entry"><strong>Spice of Life <span class="discount">-3</span></strong><p>The Master cannot move the same piece type twice in a row.</p></div>
+            <div class="pool-entry"><strong>Spread Out <span class="discount">-3</span></strong><p>The Master's non-pawn pieces cannot move adjacent to each other, and it cannot castle.</p></div>
+            <div class="pool-entry"><strong>Stand Your Ground <span class="discount">-3</span></strong><p>The Master can capture only with pieces that are currently attacked.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contracts" data-pool-group>
+      <div class="section-head">
+        <div>
+          <span class="kicker">New event type</span>
+          <h2>Mystery Contract: sign for your own drawback.</h2>
+          <p class="lede">
+            Some events now offer a Fair Deal or a Dark Deal. If signed, the next eligible fight gives
+            the player a random drawback and increases the prize for surviving it.
+          </p>
+        </div>
+        <span class="tag">Fair Deal / Dark Deal</span>
+      </div>
+
+      <div class="split">
+        <div class="contract-card">
+          <h3>Mystery Contract</h3>
+          <p>
+            Someone has prepared two contracts with your name already written in. The bargain is simple:
+            suffer the rule, claim the prize, or leave the page untouched.
+          </p>
+          <div class="contract-buttons">
+            <button class="contract-button fair active" type="button" data-pool-tab="contract-medium">Sign the Fair Deal</button>
+            <button class="contract-button" type="button" data-pool-tab="contract-hard">Sign the Dark Deal</button>
+          </div>
+        </div>
+        <div class="notes">
+          <div class="note">
+            <h3>Medium contracts</h3>
+            <p>A smaller burden with better gold than a normal fight.</p>
+          </div>
+          <div class="note">
+            <h3>Hard contracts</h3>
+            <p>A harsher rule with stronger reward pressure, including extra rare reward potential.</p>
+          </div>
+          <div class="note">
+            <h3>The enemy does not know</h3>
+            <p>The opponent plays normally; it does not secretly exploit the player's contract.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="pool-preview">
+        <div class="pool-top">
+          <div>
+            <h3>Contract drawback pools</h3>
+            <p>Fair Deal draws from Medium rules. Dark Deal draws from Hard rules.</p>
+          </div>
+          <div class="pool-tabs" aria-label="Contract drawback pools">
+            <button class="pool-tab active" type="button" data-pool-tab="contract-medium">Medium</button>
+            <button class="pool-tab" type="button" data-pool-tab="contract-hard">Hard</button>
+          </div>
+        </div>
+
+        <div class="pool-panel active" data-pool-panel="contract-medium">
+          <div class="pool-list contract">
+            <div class="pool-entry"><strong>Hedonic Treadmill</strong><p>You can't move a less valuable piece than your opponent moved.</p></div>
+            <div class="pool-entry"><strong>Cowering in Fear</strong><p>You can't move pieces less valuable than the opponent has captured.</p></div>
+            <div class="pool-entry"><strong>Whites of Their Eyes</strong><p>Your capturing moves can't have a distance of more than 2.</p></div>
+            <div class="pool-entry"><strong>Turn the Other Cheek</strong><p>You can't immediately recapture.</p></div>
+            <div class="pool-entry"><strong>Haunted</strong><p>You can't move to a square you've captured on.</p></div>
+            <div class="pool-entry"><strong>Death Wish</strong><p>If possible, you must move into check unless you are already in check.</p></div>
+            <div class="pool-entry"><strong>Diplomatic Immunity</strong><p>You can't capture a piece that just made a non-capturing move.</p></div>
+            <div class="pool-entry"><strong>Jumpy</strong><p>If possible, you must move an attacked piece.</p></div>
+            <div class="pool-entry"><strong>Indecisive</strong><p>A piece can't capture if it has several capturing options.</p></div>
+            <div class="pool-entry"><strong>Medusa</strong><p>You can't move a piece that is attacked by the enemy queen.</p></div>
+            <div class="pool-entry"><strong>Social Distancing</strong><p>You can't make non-capturing moves adjacent to an opponent's piece.</p></div>
+            <div class="pool-entry"><strong>Sibling Rivalry</strong><p>You can't move adjacent to an opponent's piece of the same type.</p></div>
+            <div class="pool-entry"><strong>Hipster</strong><p>You can't move the piece type your opponent moved.</p></div>
+            <div class="pool-entry"><strong>Remorseful</strong><p>You can't capture twice in a row.</p></div>
+            <div class="pool-entry"><strong>Scorched Earth</strong><p>You can't move to a square you've moved from before.</p></div>
+            <div class="pool-entry"><strong>Spread Out</strong><p>Your non-pawn pieces can't move adjacent to each other.</p></div>
+            <div class="pool-entry"><strong>Stop Stalling</strong><p>You can't move laterally.</p></div>
+            <div class="pool-entry"><strong>Shellshocked</strong><p>If the opponent captures, adjacent pieces can't move for 1 turn.</p></div>
+            <div class="pool-entry"><strong>Velociraptor</strong><p>You can only capture a piece type if the opponent moved it in the last 3 moves.</p></div>
+            <div class="pool-entry"><strong>Simon Says</strong><p>You must move to light or dark squares depending on what the opponent did.</p></div>
+            <div class="pool-entry"><strong>Oddball</strong><p>You can't capture on even moves.</p></div>
+            <div class="pool-entry"><strong>Even Keeled</strong><p>You can't capture on odd moves.</p></div>
+            <div class="pool-entry"><strong>Gloomstalker</strong><p>You can only capture from dark squares.</p></div>
+            <div class="pool-entry"><strong>Flatterer</strong><p>You must move pawn or non-pawn depending on what the opponent did.</p></div>
+            <div class="pool-entry"><strong>No Reinforcements</strong><p>You cannot drop reinforcements this fight.</p></div>
+            <div class="pool-entry"><strong>No Tricks</strong><p>You cannot use consumables or boosted moves this fight.</p></div>
+            <div class="pool-entry"><strong>Low Battery</strong><p>Start this fight with 0 energy. Energy boosts are reduced.</p></div>
+          </div>
+        </div>
+
+        <div class="pool-panel" data-pool-panel="contract-hard">
+          <div class="pool-list contract">
+            <div class="pool-entry"><strong>Two Steps Forward, One Drawback</strong><p>If you moved forward twice in a row, you must move backward if possible.</p></div>
+            <div class="pool-entry"><strong>Fixation</strong><p>You must alternate pawn and non-pawn moves, except you can also move the same piece again.</p></div>
+            <div class="pool-entry"><strong>Left for Dead</strong><p>You can only capture to the left.</p></div>
+            <div class="pool-entry"><strong>Centralized Command</strong><p>You can only capture if your king was moved in the last 3 moves.</p></div>
+            <div class="pool-entry"><strong>Barbarian Rage</strong><p>If you've captured, you must capture again if possible.</p></div>
+            <div class="pool-entry"><strong>Stand Your Ground</strong><p>A piece can only capture if it is attacked.</p></div>
+            <div class="pool-entry"><strong>Guerilla Tactics</strong><p>If you've captured, that piece must move back to the square it came from if possible.</p></div>
+            <div class="pool-entry"><strong>Hopscotch</strong><p>You must alternate destination-square colors.</p></div>
+            <div class="pool-entry"><strong>Checkers</strong><p>You must capture if possible.</p></div>
+            <div class="pool-entry"><strong>Far Sighted</strong><p>You can't capture on adjacent squares.</p></div>
+            <div class="pool-entry"><strong>Irresistible</strong><p>If possible, you must move adjacent to the enemy king.</p></div>
+            <div class="pool-entry"><strong>Going the Distance</strong><p>You can't move shorter than the opponent's previous move.</p></div>
+            <div class="pool-entry"><strong>No Magic</strong><p>Your non-starter, discardable relics are inactive this fight.</p></div>
+            <div class="pool-entry"><strong>Berserk</strong><p>Your move limit for this fight is cut in half, rounded up.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="augments">
+      <div class="section-head">
+        <div>
+          <span class="kicker">Encounter augmentations</span>
+          <h2>Familiar maps can roll fresh shapes.</h2>
+          <p class="lede">
+            Several encounter families now have extra formations. These keep the map identity, but shuffle the tactical texture
+            so repeated runs are less predictable.
+          </p>
+        </div>
+        <span class="tag">New map variants</span>
+      </div>
+
+      <div class="augment-grid">
+        <div class="augment-card">
+          <a class="augment-shot" href="review_screenshots/game_30_porcupine_a.png">
+            <img src="review_screenshots/game_30_porcupine_a.png" alt="Porcupine Pattern A in-game screenshot">
+          </a>
+          <h3>Porcupine Pattern A</h3>
+          <p>A new Hedgehog-style shell with diagonal spikes and a denser tactical texture.</p>
+        </div>
+        <div class="augment-card">
+          <a class="augment-shot" href="review_screenshots/game_31_porcupine_b.png">
+            <img src="review_screenshots/game_31_porcupine_b.png" alt="Porcupine Pattern B in-game screenshot">
+          </a>
+          <h3>Porcupine Pattern B</h3>
+          <p>A second Hedgehog variant with a compact royal spine and different white pressure lanes.</p>
+        </div>
+        <div class="augment-card">
+          <a class="augment-shot" href="review_screenshots/game_32_duck_river_gaps.png">
+            <img src="review_screenshots/game_32_duck_river_gaps.png" alt="Duck River with open a- and h-file gaps in-game screenshot">
+          </a>
+          <h3>Duck River: Open Edge Gaps</h3>
+          <p>A river bend where the ducks leave room on the edge files, changing how the attack can start.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="consumables">
+      <div class="section-head">
+        <div>
+          <span class="kicker">New consumables</span>
+          <h2>Four new tactical items.</h2>
+          <p class="lede">
+            These are added to the normal item pool with custom icons and sounds. Some are fast,
+            and some spend your move like a real board action.
+          </p>
+        </div>
+        <span class="tag">New item pool</span>
+      </div>
+
+      <div class="item-grid">
+        <div class="item">
+          <img src="The%20Rookery%20Modded.app/Contents/Resources/app/src/assets/timekeeper_flask.png" alt="Timekeeper Flask">
+          <h3>Timekeeper Flask</h3>
+          <p>Adds 10 moves to the current fight timer.</p>
+          <div class="pill-row"><span class="pill">common</span><span class="pill">fast</span></div>
+        </div>
+        <div class="item">
+          <img src="The%20Rookery%20Modded.app/Contents/Resources/app/src/assets/pawn_ladder.png" alt="Pawn Ladder">
+          <h3>Pawn Ladder</h3>
+          <p>Choose an empty square, then build a pawn ladder up that file.</p>
+          <div class="pill-row"><span class="pill rare">rare</span><span class="pill rare">slow</span></div>
+        </div>
+        <div class="item">
+          <img src="The%20Rookery%20Modded.app/Contents/Resources/app/src/assets/peasant_revolt.png" alt="Peasant Revolt">
+          <h3>Peasant Revolt</h3>
+          <p>Summons 7 pawns onto empty squares on ranks 5-7.</p>
+          <div class="pill-row"><span class="pill rare">rare</span><span class="pill rare">slow</span></div>
+        </div>
+        <div class="item">
+          <img src="The%20Rookery%20Modded.app/Contents/Resources/app/src/assets/transparent_ink.png" alt="Transparent Ink">
+          <h3>Transparent Ink</h3>
+          <p>Marks one square so pieces can move through it for the rest of the fight.</p>
+          <div class="pill-row"><span class="pill rare">rare</span><span class="pill">fast</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="custom">
+      <div class="section-head">
+        <div>
+          <span class="kicker">Custom runs</span>
+          <h2>Build your own ruleset and save it.</h2>
+          <p class="lede">
+            The New Run screen now has a custom mode. Start from an ascension baseline,
+            tweak individual drawbacks, save a ruleset name, and optionally paste a seed.
+          </p>
+        </div>
+        <span class="tag">My Run</span>
+      </div>
+
+      <div class="split">
+        <div class="shot contain">
+          <span class="shot-label">Actual custom ruleset screen</span>
+          <img src="review_screenshots/game_11_custom_ruleset.png" alt="Custom ruleset panel in the new run screen">
+        </div>
+        <div class="notes">
+          <div class="note">
+            <h3>Right-side rules panel</h3>
+            <p>Custom rules open next to the normal start-run card instead of stretching it downward.</p>
+          </div>
+          <div class="note">
+            <h3>Purple custom flame</h3>
+            <p>Custom runs use a purple flame badge with the ruleset name instead of a numbered ascension flame.</p>
+          </div>
+          <div class="note">
+            <h3>No normal unlocks</h3>
+            <p>Winning a custom run does not unlock the next normal ascension.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="items">
+      <div class="section-head">
+        <div>
+          <span class="kicker">Item control and balance</span>
+          <h2>More ways to manage your inventory.</h2>
+          <p class="lede">
+            Several vanilla item moments were made clearer or more flexible: selling, shop rolls,
+            relic timing, and a few balance values.
+          </p>
+        </div>
+      </div>
+
+      <div class="compact-grid">
+        <div class="small-mod">
+          <h3><img src="The%20Rookery%20Modded.app/Contents/Resources/app/src/assets/trash.png" alt="">Sell unwanted items</h3>
+          <p>Discardable relics and consumables can be thrown away for 25% of their value, with the gold shown before selling.</p>
+        </div>
+        <div class="small-mod">
+          <h3><img src="The%20Rookery%20Modded.app/Contents/Resources/app/src/assets/golden_wire.png" alt="">Relic ON/OFF</h3>
+          <p>Most discardable relics can be turned off before or during a fight. Starter and undiscardable relics stay always on.</p>
+        </div>
+        <div class="small-mod">
+          <h3><img src="The%20Rookery%20Modded.app/Contents/Resources/app/src/assets/gold-coins.png" alt="">Smarter shops</h3>
+          <p>Shops try to show items you could afford after selling discardable items, including Greed Potion value.</p>
+        </div>
+        <div class="small-mod">
+          <h3><img src="The%20Rookery%20Modded.app/Contents/Resources/app/src/assets/wedding_ring.png" alt="">Wedding Ring</h3>
+          <p>Wedding Ring now costs 3 energy.</p>
+        </div>
+        <div class="small-mod">
+          <h3><img src="The%20Rookery%20Modded.app/Contents/Resources/app/src/assets/elixir.png" alt="">Elixir</h3>
+          <p>Elixir is now a fast consumable.</p>
+        </div>
+        <div class="small-mod">
+          <h3><img src="The%20Rookery%20Modded.app/Contents/Resources/app/src/assets/fire_purple_transparent.png" alt="">Encounter variety</h3>
+          <p>Many encounter families have extra formations and more balanced sampling, so repeated runs feel less samey.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      Screenshots were captured from the local modded copy of The Rookery.
+    </footer>
+  </div>
+  <script>
+    document.querySelectorAll("[data-pool-group]").forEach((group) => {
+      const tabs = Array.from(group.querySelectorAll("[data-pool-tab]"));
+      const panels = Array.from(group.querySelectorAll("[data-pool-panel]"));
+
+      function activate(target) {
+        tabs.forEach((tab) => tab.classList.toggle("active", tab.dataset.poolTab === target));
+        panels.forEach((panel) => panel.classList.toggle("active", panel.dataset.poolPanel === target));
+      }
+
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", () => activate(tab.dataset.poolTab));
+      });
+    });
+
+  </script>
+</body>
+</html>
