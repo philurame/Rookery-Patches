@@ -6,7 +6,7 @@
 
 Unzip the patch folder, then double-click the appropriate file for your system:
 - Double-click `Install Modded Rookery.command` for **macOs** (Apple Silicon)
-- Double-click `Install Modded Rookery.command` for **macOs** (Intell)
+- Double-click `Install Modded Rookery.command` for **macOS** (Intel; downloads an Intel Electron runtime on first install)
 - Double-click `Install Modded Rookery Windows.bat` for **Windows**
 - run `./install_modded_rookery_linux.sh install` for **Linux**
 
