@@ -1,15 +1,22 @@
-# The Rookery Patches
+# Rookery Expanded
 
-- Overview of the main new modifications in [MODDED_CHANGES_REVIEW.html](MODDED_CHANGES_REVIEW.html) (open it in Chrome).
+Unofficial fan expansion patch for the Steam version of **The Rookery**.
 
-## Installation
+## Download
 
-Unzip the patch folder, then double-click the appropriate file for your system:
-- Double-click `Install Modded Rookery.command` for **macOs** (Apple Silicon)
-- Double-click `Install Modded Rookery.command` for **macOS** (Intel; downloads an Intel Electron runtime on first install)
-- Double-click `Install Modded Rookery Windows.bat` for **Windows**
-- run `./install_modded_rookery_linux.sh install` for **Linux**
+Pick the zip for your system:
 
+- [Windows](https://github.com/philurame/Rookery-Patches/raw/main/patch_windows.zip)
+- [macOS Apple Silicon](https://github.com/philurame/Rookery-Patches/raw/main/patch_macos.zip)
+- [macOS Intel](https://github.com/philurame/Rookery-Patches/raw/main/patch_macos_intel.zip)
+- [Linux x64](https://github.com/philurame/Rookery-Patches/raw/main/patch_linux.zip)
 
-This package creates a separate, modded copy of the Steam game without overwriting the vanilla install.\
-If something goes wrong, refer to the README.md file included in the corresponding zip package.
+Then extract the zip and follow the `README.md` inside the extracted folder.
+
+## What It Does
+
+The installer creates a separate **Rookery Expanded** copy next to the installer. Your original Steam game is not overwritten.
+
+Compact visual preview:
+
+[MODDED_CHANGES_REVIEW.html](MODDED_CHANGES_REVIEW.html)
